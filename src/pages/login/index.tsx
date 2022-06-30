@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
                 titleStyle={styles.buttons}
                 buttonStyle={styles.buttons}
                 containerStyle={styles.buttonsContainerStyle}
-            />
+            />: <ActivityIndicator size="large" color="#fff"/>}
         </View>
     );
 }

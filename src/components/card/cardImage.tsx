@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native'
 import { Card } from 'react-native-elements'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CardImg = () => {
 
     return (
         <ScrollView style={styles.container} horizontal={true}>
+             <TouchableOpacity onPress={}>
             <View style={styles.box}>
                 <Card>
                     <Card.Title>Title</Card.Title>
@@ -34,6 +36,7 @@ const CardImg = () => {
                     <Text>description</Text>
                 </Card>
             </View>
+            </TouchableOpacity>
         </ScrollView>
     );
 };

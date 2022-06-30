@@ -16,6 +16,7 @@ ProdutoSchema.schema = {
     }
 };
 
+
 let realm_carrinho = new Realm({ schema: [ProdutoSchema], schemaVersion: 1 });
 
 export function CarrinhoProvider({ children }) {

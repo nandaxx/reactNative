@@ -4,15 +4,19 @@ import { Title } from 'react-native-paper';
 import Card from '../../components/card/cardCategoria';
 import CardImg from '../../components/card/cardImage';
 import CardPromo from '../../components/card/cardPropa';
-import MyHeader from '../../components/header/index';
-import MySearch from '../../components/seach';
+import MySearch from '../../components/search';
+//import {Icon, Button } from "react-native-elements";
+//import Logout from '../login/sair';
 
-const Home = () => {
+const Home = ({navigation}) => {
 
     return (
         <ScrollView>
-            <MyHeader/>
             <MySearch/>
+       {/* <Button icon={<Icon name="check" size={15} color="white"/>}
+        title="Sair"
+        onPress={() => Logout(navigation)}
+    />*/}
             <Card/>
             <Title>Recentes</Title>
             <CardImg/>
