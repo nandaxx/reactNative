@@ -1,22 +1,39 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { Text, Input, Icon, Button } from "react-native-elements";
+import { AutenticacaoContext } from "../../context/autenticacaoContext";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const { login } = useContext(AutenticacaoContext);
+    const [isLoading, setLoading] = useState(false);
 
-    const handleLogin = ({ email, senha }) => {
+    const handleLogin = async (email: string, senha: string) => {
         console.log(`Email : ${email} - Senha : ${senha}`);
-        navigation.navigate('Home')
 
+        const respostaLogin = await login(email, senha);
+        setLoading(false);
+        if (!respostaLogin) {
+            Alert.alert(
+                "Erro",
+                "",
+                [
+                    { text: "OK" },
+                    { text: "Não foi possível realizar o login." },
+                ]
+            );
+
+        } else {
+            navigation.navigate('Home');
+        }
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.texto_entrada}>{'Bem-vindo'}</Text>
-            <Input 
+            <Input
                 placeholder='E-mail'
                 onChangeText={setEmail}
                 value={email}
@@ -31,10 +48,12 @@ const Login = ({navigation}) => {
                 leftIcon={<Icon name='key' color='#000' type='font-awesome' size={24} />}
                 inputStyle={styles.inputs}
                 placeholderTextColor={'black'}
+                secureTextEntry//mascarar senha
             />
+            {isLoading ===false ? 
             <Button
                 title='Entrar'
-                onPress={() => handleLogin({ email, senha })}
+                onPress={() => {handleLogin(email, senha); setLoading(true)}}
                 titleStyle={styles.buttons}
                 buttonStyle={styles.buttons}
                 containerStyle={styles.buttonsContainerStyle}

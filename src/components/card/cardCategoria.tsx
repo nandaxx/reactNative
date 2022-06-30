@@ -1,44 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ScrollView, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { Text } from 'react-native-elements';
+import AxiosInstance from '../../api/axiosInstance';
+import { AutenticacaoContext } from "../../context/autenticacaoContext";
 
-const Card = () => {
-    
+
+type CategoriaType = {
+    idCategoria: number;
+    nomeCategoria: string;
+    nomeImagem: string;
+}
+
+const Card = ( route, navigation ) => {
+    const {usuario} = useContext(AutenticacaoContext);
+    console.log('Usuario: ' + JSON.stringify(usuario));
+    const [categoria, setCategoria] = useState<CategoriaType[]>([]);
+
+    useEffect(() => {
+        getDadosCategoria();
+    }, []);
+
+    const getDadosCategoria = async () => {
+        AxiosInstance.get(
+            `/categoria`,
+            { headers: { "Authorization": `Bearer ${usuario.token}` } }
+        ).then(result => {
+            console.log('Dados das catagorias: ' + JSON.stringify(result.data));
+            setCategoria(result.data);
+        }).catch((error) => {
+            console.log("Erro ao carregar a lista de categorias - " + JSON.stringify(error));
+        });
+    }
+
     return (
         <ScrollView style={styles.container}>
             <ScrollView style={styles.box} horizontal={true}>
-                <TouchableOpacity
-                    onPress={() => console.log('Categoria 1 foi pressionada')}
-                    style={styles.button}
-                >
-                    <View style={styles.itens}>
-                        <Text style={styles.title} >{'Categoria 1'}</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => console.log('Categoria 2 foi pressionada')}
-                    style={styles.button}
-                >
-                    <View style={styles.itens}>
-                        <Text style={styles.title} >{'Categoria 2'}</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => console.log('Categoria 3 foi pressionada')}
-                    style={styles.button}
-                >
-                    <View style={styles.itens}>
-                        <Text style={styles.title} >{'Categoria 3'}</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => console.log('Categoria 4 foi pressionada')}
-                    style={styles.button}
-                >
-                    <View style={styles.itens}>
-                        <Text style={styles.title} >{'Categoria 4'}</Text>
-                    </View>
-                </TouchableOpacity>
+                {
+                    categoria.map((k, i) => ( //key, indice
+                        <TouchableOpacity key={i}
+                            onPress={() => console.log(`Categoria ${k.nomeCategoria} foi pressionada`)}
+                            style={styles.button}
+                        >
+                            <View style={styles.itens}>
+                                <Text style={styles.title} >{k.nomeCategoria}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))
+                }
             </ScrollView>
         </ScrollView>
     );
