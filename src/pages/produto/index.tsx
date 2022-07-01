@@ -12,7 +12,7 @@ const Produto = (/*{route, navigation}*/) => {
 
    /* const handleAddProduto = () => {
         adicionarProduto(id_produto,sku,nome, descricao_produto, imagem_produto, preco_produto)
-    }*/
+    } */
 
     return(
         <View style={styles.container}>
